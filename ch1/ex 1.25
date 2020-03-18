@@ -1,0 +1,22 @@
+#include <iostream>
+#include "Sales_item.h"
+int main(){
+    Sales_item book1, book2;
+    // Excellent way to give book_sum an initial value
+    if (std::cin >> book1){
+     while (std::cin >> book2)
+    {
+        if (compareIsbn(book1, book2))
+        book1 += book2;
+        else {
+        std::cout << book1 << std::endl;
+        // return here is important to end the main
+        book1 = book2;
+        }
+    }
+     std::cout << book1 << std::endl;
+    }
+    else
+     std::cout << "No input" << std::endl;
+    return 0;
+}
