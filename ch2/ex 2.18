@@ -1,0 +1,12 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+int main()
+{
+    int i = 5.8;
+    int *pi = &i;
+    pi = 0;
+    std::cout << pi << std::endl;
+}
