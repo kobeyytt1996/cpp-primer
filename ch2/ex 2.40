@@ -1,0 +1,6 @@
+struct Foo {
+    std::string bookNo;
+    unsigned units_sold = 0;
+    double sellprice = 0.0;
+    double discount = 0.0;
+};
