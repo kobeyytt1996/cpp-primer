@@ -1,0 +1,24 @@
+#include <iostream>
+#include <string>
+using std::string;
+
+using std::cin;
+using std::endl;
+using std::cout;
+
+int main()
+{
+    string line1, line2;
+    cout << "Two strings:\n" << endl;
+    cin >> line1 >> line2;
+    if (line1 == line2)
+        cout << "Same!" << endl;
+    else if (line1 < line2)
+        cout << line2 + "larger" + ",";
+    else
+        cout << line1 << "larger";
+
+    return 0;
+
+
+}
