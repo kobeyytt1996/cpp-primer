@@ -1,0 +1,24 @@
+#include <iostream>
+#include <cstddef>
+#include <iterator>
+
+
+using std::cout;using std::endl;
+using std::size_t; using std::begin;
+using std::end;
+
+int main()
+{
+    int a1[4] = {1, 2, 2, 5};
+    auto p1 = begin(a1), p2 = end(a1);
+
+    for ( ; p1 != p2; ++p1)
+    {
+        *p1 = 0;
+        cout << *p1 << " ";
+    }
+
+    cout << endl;
+
+    return 0;
+}
