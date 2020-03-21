@@ -1,0 +1,24 @@
+#include <iostream>
+#include <cstddef>
+
+using std::cout;using std::endl;
+using std::size_t;
+
+int main()
+{
+    int a1[10];
+    for (size_t is = 0; is < 10; ++is)
+    {
+        a1[is] = is;
+        cout << a1[is] << endl;
+    }
+
+    int a2[10];
+    for (size_t i = 0; i < 10; ++i)
+        a2[i] = a1[i];
+    for (auto att : a2)
+        cout << att << " ";
+    cout << endl;
+
+    return 0;
+}
