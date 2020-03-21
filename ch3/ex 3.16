@@ -1,0 +1,22 @@
+#include <iostream>
+#include <vector>
+#include <string>
+
+using std::string; using std::cout;
+using std::cin; using std::endl;
+using std::vector;
+
+int main(){
+    vector<string> v1;
+    string s1;
+    while (cin >> s1)
+        v1.push_back(s1);
+    for (auto &a1 : v1)
+    {
+        for (auto &c1 : a1)
+        c1 = toupper(c1);
+        cout << a1 << endl;
+    }
+
+    return 0;
+}
