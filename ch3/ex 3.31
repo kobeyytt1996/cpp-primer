@@ -1,0 +1,17 @@
+#include <iostream>
+#include <cstddef>
+
+using std::cout;using std::endl;
+using std::size_t;
+
+int main()
+{
+    int a1[10];
+    for (size_t is = 0; is < 10; ++is)
+    {
+        a1[is] = is;
+        cout << a1[is] << endl;
+    }
+
+    return 0;
+}
