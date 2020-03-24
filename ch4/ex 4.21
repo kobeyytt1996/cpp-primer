@@ -1,0 +1,24 @@
+#include <iostream>
+#include <string>
+#include <vector>
+using namespace std;
+
+int main() {
+	vector<int> yuan;
+	int i;
+	while (cin >> i)
+	{
+		yuan.push_back(i);
+	}
+	for (auto &j : yuan)
+	{
+		while (j % 2)
+			j *= 2;
+		cout << j << " ";
+	}
+		
+	cout << endl;
+}
+
+
+
