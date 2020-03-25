@@ -1,0 +1,40 @@
+#include <iostream>
+#include <string>
+#include <ctype.h>
+using namespace std;
+
+void iscapital(const string &str, bool &iscapi)
+{
+	iscapi = false;
+	for (auto s : str)
+	{
+		if (isupper(s))
+		{
+			iscapi = true;
+		}
+	}
+}
+
+void convert_low(string &str)
+{
+	for (auto &c : str)
+		c = tolower(c);
+}
+
+int main()
+{
+	cout << "A word" << endl;
+	string s;
+	cin >> s;
+	bool b;
+	iscapital(s, b);
+	if (b)
+	{
+		cout << "有大写" << endl;
+		convert_low(s);
+		cout << s << endl;
+	}
+
+	return 0;
+}
+
