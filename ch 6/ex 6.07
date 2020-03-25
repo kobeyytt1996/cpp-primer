@@ -1,0 +1,18 @@
+#include <iostream>
+using namespace std;
+
+int mycount() {
+	static int i = 0;
+	return i++;
+}
+
+int main()
+{
+	char ch;
+	while (cin >> ch)
+	{
+		cout << "运行 " << mycount() << endl;
+	}
+
+	return 0;
+}
