@@ -1,0 +1,25 @@
+#include <iostream>
+#include <string>
+#include <vector>
+using namespace std;
+
+int main() {
+	do
+	{
+		string prev, now;
+		string result;
+
+		cout << "Two strings:" << endl;
+		cin >> prev >> now;
+
+		result = ((prev.size() > now.size()) ? now : prev);
+		cout << "Shorter: " << result << endl;
+	} while (cin);
+	
+
+	return 0;
+		
+}
+
+
+
