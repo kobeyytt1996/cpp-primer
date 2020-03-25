@@ -1,0 +1,24 @@
+#include <iostream>
+#include <string>
+#include <vector>
+using namespace std;
+
+int main() {
+	const vector<string> status = { "A++", "A", "B", "C", "D","E" };
+	int grade;
+	string indicate;
+
+	cout << "成绩：" << endl;
+	cin >> grade;
+
+	indicate = ((grade < 60) ? status[5] : status[10 - grade / 10]);
+	indicate += ((grade % 10 > 8) ? "+" : ((grade != 100) && (grade % 10 < 3)) ? "-" : "");
+		
+	cout << indicate << endl;
+
+	return 0;
+		
+}
+
+
+
