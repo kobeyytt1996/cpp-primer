@@ -1,0 +1,9 @@
+#include <iostream>
+
+using namespace std;
+
+int largethan(const int i1, const int *i2)
+{
+	int j = (i1 > *i2) ? i1 : *i2;
+	return j;
+}
