@@ -1,0 +1,21 @@
+#include <iostream>
+
+using namespace std;
+
+void pointer_swap( int *(&i1),  int *(&i2))
+{
+	int *i3;
+	i3 = i1;
+	i1 = i2;
+	i2 = i3;
+}
+
+int main()
+{
+	int i1 = 0, i2 = 40;
+	int *p1 = &i1, *p2 = &i2;
+	pointer_swap(p1, p2);
+	cout << i1 << " " << i2 << endl;
+	cout << *p1 << " " << *p2 << endl;
+
+}
