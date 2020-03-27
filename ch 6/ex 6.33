@@ -1,0 +1,20 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+void print_vector(const vector<int> &vec, unsigned index)
+{
+	unsigned num = vec.size();
+	if (!vec.empty() && index != num)
+	{
+		cout << vec[index] << endl;
+		print_vector(vec, index + 1);
+	}
+}
+
+int main()
+{
+	vector<int> v1 = { 1, 2 };
+	print_vector(v1, 0);
+	return 0;
+}
