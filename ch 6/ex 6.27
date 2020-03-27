@@ -1,0 +1,20 @@
+#include <iostream>
+using namespace std;
+
+int sum_values(initializer_list<int> i1)
+{
+	int sum = 0;
+	if (i1.size() == 0)
+		cerr << "No value" << endl;
+	for (const auto &e : i1)
+		sum += e;
+
+	return sum;
+}
+
+int main()
+{
+	int i = 2;
+	cout << sum_values({ 5, 9, 2, i }) << endl;
+	return 0;
+}
