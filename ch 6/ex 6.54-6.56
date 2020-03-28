@@ -1,0 +1,25 @@
+#include <vector>
+#include <iostream>
+using namespace std;
+
+
+int func_sum(int a, int b)
+{
+	return a + b;
+}
+int func_subtract(int a, int b)
+{
+	return a - b;
+}
+
+int main()
+{
+	int a, b;
+	cout << "两整数：" << endl;
+	cin >> a >> b;
+	vector<decltype(func_subtract) *> myvec = { func_sum, func_subtract };
+	cout << "Sum: " << myvec[0](a, b) << endl;
+	cout << "Sub: " << myvec[1](a, b) << endl;
+
+	return 0;
+}
