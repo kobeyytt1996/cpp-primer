@@ -1,0 +1,14 @@
+istream &read(istream &, Person &);
+ostream &print(ostream &, const Person &);
+
+istream &read(istream &is, Person &someone)
+{
+	is >> someone.name >> someone.address;
+	return is;
+}
+
+ostream &print(ostream &os, Person &someone)
+{
+	os << someone.name << someone.address;
+	return os;
+}
