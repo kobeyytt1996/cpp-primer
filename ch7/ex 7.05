@@ -1,0 +1,14 @@
+#pragma once
+#include <string>
+using namespace std;
+
+struct Person
+{
+public:
+	string getName() const { return name; }
+	string getAddress() const { return address; }
+		
+private:	
+	string name;
+	string address;
+};
