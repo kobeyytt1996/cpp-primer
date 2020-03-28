@@ -1,0 +1,4 @@
+Person() = default;
+	Person(const string &s1, const string &s2)
+		: name(s1), address(s2) {};
+	Person(istream &is) { is >> *this; }
