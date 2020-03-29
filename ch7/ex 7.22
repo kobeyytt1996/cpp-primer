@@ -1,0 +1,35 @@
+#pragma once
+#include <string>
+#include <iostream>
+using namespace std;
+
+struct Person
+{
+friend istream &read(istream &, Person &);
+public:
+	Person() = default;
+	Person(const string &s1, const string &s2)
+		: name(s1), address(s2) {};
+	Person(istream &is) { read(is, *this); }
+public:
+	string getName() const { return name; }
+	string getAddress() const { return address; }
+		
+private:	
+	string name;
+	string address;
+};
+istream &read(istream &, Person &);
+ostream &print(ostream &, const Person &);
+
+istream &read(istream &is, Person &someone)
+{
+	is >> someone.name >> someone.address;
+	return is;
+}
+
+ostream &print(ostream &os, Person &someone)
+{
+	os << someone.getName() << someone.getAddress();
+	return os;
+}
