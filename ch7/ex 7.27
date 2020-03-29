@@ -1,0 +1,41 @@
+#pragma once
+#include <vector>
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+class Screen {
+public:
+	using pos = string::size_type;
+public:
+	Screen() = default;
+	Screen(pos he, pos wi, int bl) : height(he), width(wi), contents(he * wi, ' '){}
+	Screen(pos he, pos wi, char c) : height(he), width(wi), contents(he * wi, c) {}
+public:
+	Screen &move(pos he, pos wi)
+	{
+		cursor = he * width + wi;
+		return *this;
+	}
+	Screen &set(char c)
+	{
+		contents[cursor] = c;
+		return *this;
+	}
+	Screen &set(pos he, pos wi, char c)
+	{
+		contents[he * width + wi] = c;
+		return *this;
+	}
+	Screen &display(ostream &os)
+	{
+		os << contents;
+		return *this;
+	}
+private:
+	pos height = 0;
+	pos width = 0;
+	pos cursor = 0;
+	string contents;
+};
