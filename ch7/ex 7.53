@@ -1,0 +1,10 @@
+#pragma once
+class Debug {
+public:
+	constexpr Debug(bool bo = true) : hw(bo), io(bo), other(bo) {}
+	constexpr bool any() { return hw || io || other; }
+private:
+	bool hw;
+	bool io;
+	bool other;
+};
