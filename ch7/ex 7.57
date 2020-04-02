@@ -1,0 +1,13 @@
+#pragma once
+class Account {
+public:
+	static void rate(double);
+private:
+	int amount;
+	static constexpr double interestrate = 0.5;
+	static double initrate();
+};
+
+void Account::rate(double i = 0.5) {
+	interestrate = i;
+}
