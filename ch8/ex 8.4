@@ -1,0 +1,30 @@
+#include <fstream>
+#include <vector>
+#include <string>
+#include <iostream>
+using namespace std;
+
+int main()
+{
+	ifstream in("data");
+	if (!in)
+	{
+		cerr << "No file" << endl;
+		return -1;
+	}
+
+	vector<string> yuan;
+	string record;
+	while (getline(in, record))
+	{
+		yuan.push_back(record);
+	}
+
+	in.close();
+
+	for (auto s : yuan) {
+		cout << s << ends;
+	}
+
+	return 0;
+}
