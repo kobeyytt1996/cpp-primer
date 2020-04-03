@@ -1,0 +1,30 @@
+#include <iostream>
+#include <stdexcept>
+using namespace std;
+
+istream & read_print(istream & in)
+{
+	int i;
+
+	while (in >> i, !in.eof())
+	{
+		if (in.bad())
+			throw runtime_error("数据流错误");
+		if (in.fail()) {
+			cerr << "数据错误" << endl;
+			in.clear();
+			in.ignore(100, '\n');
+			continue;
+		}
+		cout << i << endl;
+	}
+
+	in.clear();
+	return in;
+}
+
+int main() {
+	cout << "输入整数" << endl;
+	read_print(cin);
+	return 0;
+}
