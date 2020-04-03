@@ -1,0 +1,40 @@
+#include <fstream>
+#include <vector>
+#include <string>
+#include <iostream>
+#include <sstream>
+using namespace std;
+
+int main(int argc, char **argv) 
+{
+	if (argc != 2) {
+		cerr << "未正确给文件名" << endl;
+		return -1;
+	}
+	ifstream in(argv[1]);
+	if (!in) {
+		cerr << "输入失败" << endl;
+		return -1;
+	}
+	
+	vector<string> record;
+	string line;
+	while (getline(in, line)) {
+		record.push_back(line);
+	}
+	in.close();
+
+	vector<string>::const_iterator it = record.begin();
+	while (it != record.end()) {
+		istringstream ins(*it);
+		string word;
+		while (ins >> word)
+		{
+			cout << word << ends;
+		}
+		++it;
+	}
+	return 0;
+	
+	
+}
