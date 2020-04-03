@@ -1,0 +1,25 @@
+#include <fstream>
+#include <vector>
+#include <string>
+#include <iostream>
+using namespace std;
+
+int main(int argc, char **argv) 
+{
+	if (argc != 3) {
+		cerr << "未正确给文件名" << endl;
+		return -1;
+	}
+	ifstream in(argv[1]);
+	if (!in) {
+		cerr << "输入失败" << endl;
+		return -1;
+	}
+	ofstream out(argv[2], ofstream::app);
+	if (!out) {
+		cerr << "输出失败" << endl;
+		return -1;
+	}
+	if (!out)
+	
+}
