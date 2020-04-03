@@ -1,0 +1,19 @@
+#include <vector>
+#include <iostream>
+#include <list>
+#include <string>
+using namespace std;
+
+
+
+int main() 
+{
+	list<char *> myList = { "Hello", "Hi" };
+	vector<string> myVec;
+	myVec.assign(myList.cbegin(), myList.cend());
+	
+	cout << myVec[0] << endl;
+	
+	return 0;
+}
+
