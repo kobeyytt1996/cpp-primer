@@ -1,0 +1,28 @@
+#include <vector>
+#include <iostream>
+#include <string>
+#include <algorithm>
+using namespace std;
+
+int main()
+{
+	string word;
+	vector<string> story;
+	while (cin >> word)
+	{
+		story.push_back(word);
+		cout << word << ends;
+	}
+	cout << endl;
+	sort(story.begin(), story.end());
+	auto last = unique(story.begin(), story.end());
+	for (auto a : story)
+		cout << a << ends;
+	cout << endl;
+	story.erase(last, story.end());
+	for (auto a : story)
+		cout << a << ends;
+
+	return 0;
+
+}
