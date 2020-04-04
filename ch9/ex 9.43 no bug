@@ -1,0 +1,38 @@
+#include <string>
+#include <iostream>
+using namespace std;
+
+int main()
+{
+	string s, oldVal, newVal;
+	s = "tho my love tho";
+	oldVal = "tho";
+	newVal = "though";
+	auto iter = s.begin();
+
+	while (iter <= s.end()-1)
+	{
+		auto iter1 = iter;
+		auto iter2 = oldVal.begin();
+
+		while (iter2 != oldVal.end() && *iter1 == *iter2)
+		{
+			iter1++; iter2++;
+		}
+		if (iter2 == oldVal.end()) {
+			{
+				s.erase(iter, iter1);
+			}
+			iter2 = newVal.end();
+			do
+			{
+				iter2--;
+				iter = s.insert(iter, *iter2);
+			} while (iter2 > newVal.begin());
+			iter += newVal.size();
+		}
+		else iter++;
+	}
+	cout << s << endl;
+	return 0;
+}
