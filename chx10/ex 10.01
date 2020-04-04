@@ -1,0 +1,17 @@
+#include <vector>
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+int main()
+{
+	vector<int> record;
+	int i;
+	while (cin >> i)
+	{
+		record.push_back(i);
+	}
+	cout << count(record.cbegin(), record.cend(), 5) << endl;
+
+	return 0;
+}
