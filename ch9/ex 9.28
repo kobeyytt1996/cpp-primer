@@ -1,0 +1,29 @@
+#include <iostream>
+#include <forward_list>
+#include <string>
+using namespace std;
+
+int main()
+{
+	forward_list<string> sin_list = { "Hi", "He", "Ho", "Hi" };
+	string s1 = "Hi", s2 = "Me";
+	bool inserted = false;
+	auto it = sin_list.begin(), prev = sin_list.before_begin();
+	while (it != sin_list.end())
+	{
+		if (*it == s1) {
+			it = sin_list.insert_after(it, s2);
+			inserted = true;
+		}
+		prev = it;
+		it++;
+	}
+
+	if (!inserted)
+	{
+		sin_list.insert_after(prev, s2);
+	}
+	for (auto a : sin_list)
+		cout << a << endl;
+	return 0;
+}
