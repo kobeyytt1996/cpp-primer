@@ -1,0 +1,31 @@
+#include <string>
+#include <iostream>
+using namespace std;
+
+int main()
+{
+	string s, oldVal, newVal;
+	s = "tho my love tho";
+	oldVal = "tho";
+	newVal = "though";
+	auto iter1 = s.begin();
+
+	while (iter1 < s.end() - s.size() + 2)
+	{
+		int i = 0;
+		while(i != oldVal.size()) {
+			if (*iter1 == oldVal[i]) {
+				++iter1; ++i;
+			}
+			else break;
+		}
+		auto prev = iter1;
+		if (i == oldVal.size()) {
+			s.replace(iter1 - i, iter1, newVal);
+			iter1 = prev - i + newVal.size();
+		}
+		else ++iter1;
+	}
+	cout << s << endl;
+	return 0;
+}
