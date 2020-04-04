@@ -1,0 +1,13 @@
+#include <string>
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int main()
+{
+	vector<string> vec = { "15", "-10" };
+	int sum = 0;
+	for (auto a : vec)
+		sum += stoi(a);
+	cout << sum << endl;
+}
