@@ -1,0 +1,25 @@
+#include <string>
+#include <iostream>
+using namespace std;
+
+int main()
+{
+	string exclude = "bdfghjklpqty";
+	string longest, word;
+	int max_length = 0;
+	string::size_type pos;
+
+	cout << "Sentence:" << endl;
+	while (cin >> word)
+	{
+		if ((pos = word.find_first_of(exclude)) != string::npos)
+			continue;
+		if (word.size() > max_length) {
+			longest = word;
+			max_length = word.size();
+		}
+	}
+
+	cout << longest << endl;
+	return 0;
+}
