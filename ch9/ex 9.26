@@ -1,0 +1,26 @@
+#include <iostream>
+#include <vector>
+#include <list>
+using namespace std;
+
+int main()
+{
+	int ia[] = { 0, 1, 1, 2, 3 };
+	vector<int> odd_vec(begin(ia), end(ia));
+	list<int> even_list;
+	even_list.assign(cbegin(ia), cend(ia));
+
+	auto iter1 = odd_vec.begin();
+	auto iter2 = even_list.begin();
+
+	while (iter1 != odd_vec.end())
+	{
+		if (*iter1 & 1)
+			iter1++;
+		else iter1 = odd_vec.erase(iter1);
+	}
+	for (auto a : odd_vec)
+		cout << a << endl;
+
+	return 0;
+}
