@@ -1,0 +1,14 @@
+#include <vector>
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+int main()
+{
+	vector<int> vec(10, 1);
+	fill_n(vec.begin(), vec.size(), 5);
+	for (auto a : vec)
+		cout << a << ends;
+
+	return 0;
+}
