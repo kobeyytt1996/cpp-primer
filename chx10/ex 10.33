@@ -1,0 +1,19 @@
+#include <fstream>
+#include <iterator>
+using namespace std;
+
+int main()
+{
+	ifstream in("file1.txt");
+	ofstream odd("odd.txt"), even("even.txt");
+	istream_iterator<int> iter(in), eof;
+	ostream_iterator<int> iter1(odd, " "), iter2(even, "\n");
+	while (iter != eof)
+	{
+		if (*iter % 2) *iter1 = *iter;
+		else *iter2 = *iter;
+		++iter;
+	}
+
+	return 0;
+}
