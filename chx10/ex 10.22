@@ -1,0 +1,25 @@
+#include <functional>
+#include <vector>
+#include <string>
+#include <iostream>
+#include <algorithm>
+using namespace std;
+using namespace std::placeholders;
+
+inline bool check_if(const string s1, string::size_type i)
+{
+	if (s1.size() <= i) return true;
+	return false;
+}
+
+inline int less_than(const vector<string> &s, vector<string>::size_type i)
+{
+	return count_if(s.cbegin(), s.cend(), bind(check_if, _1, i));
+}
+
+int main()
+{
+	vector<string> s = { "strw", "srew", "seq", "qqq" };
+	cout << less_than(s, 3) << endl;
+	return 0;
+}
