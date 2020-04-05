@@ -1,0 +1,30 @@
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include <string>
+using namespace std;
+
+void bigges(vector<string> &vec, vector<string>::size_type sz)
+{
+	if (!vec.size()) return;
+	sort(vec.begin(), vec.end());
+	auto repeat = unique(vec.begin(), vec.end());
+	vec.erase(repeat, vec.end());
+	stable_sort(vec.begin(), vec.end(), [](const string &a1, const string &a2) { return a1.size() < a2.size(); });
+	auto pos = stable_partition(vec.begin(), vec.end(), [sz](const string &s) { return s.size() >= sz; });
+	for_each(vec.begin(), pos, [](const string &s) { cout << s << ends; });
+}
+
+int main()
+{
+	vector<string> story;
+	string word;
+	while (cin >> word)
+	{
+		story.push_back(word);
+	}
+	bigges(story, 4);
+	cout << endl;
+
+	return 0;
+}
