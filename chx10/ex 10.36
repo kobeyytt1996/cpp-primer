@@ -1,0 +1,17 @@
+#include <vector>
+#include <iostream>
+#include <iterator>
+#include <list>
+#include <string>
+using namespace std;
+
+int main()
+{
+	list<int> li = { 1, 0, 3, 0, 4 };
+	auto pos = find(li.crbegin(), li.crend(), 0);
+	ostream_iterator<int> out(cout, " ");
+	copy(pos.base(),li.cend(), out);
+	cout << endl;
+
+	return 0;
+}
