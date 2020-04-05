@@ -1,0 +1,21 @@
+#include <vector>
+#include <string>
+#include <iostream>
+#include <algorithm>
+#include <functional>
+using namespace std;
+using namespace std::placeholders;
+
+inline bool check_size(int i, const string &s)
+{
+	return i > s.size();
+}
+
+int main()
+{
+	vector<int> vec = { 1, 2, 3, 4 };
+	string s = "Hi";
+	cout << *(find_if(vec.cbegin(), vec.cend(), bind(check_size, _1, s))) << endl;
+
+	return 0;
+}
