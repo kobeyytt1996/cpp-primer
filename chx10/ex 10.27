@@ -1,0 +1,17 @@
+#include <iostream>
+#include <vector>
+#include <list>
+#include <algorithm>
+#include <iterator>
+using namespace std;
+
+int main()
+{
+	vector<int> vec = { 3, 3, 3, 4, 3, 5 };
+	list<int> li;
+	unique_copy(vec.cbegin(), vec.cend(), front_inserter(li));
+
+	for_each(li.cbegin(), li.cend(), [](const int &a) {cout << a << endl; });
+
+	return 0;
+}
