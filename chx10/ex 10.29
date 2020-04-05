@@ -1,0 +1,22 @@
+#include <fstream>
+#include <vector>
+#include <string>
+#include <iostream>
+#include <iterator>
+#include <algorithm>
+using namespace std;
+
+int main()
+{
+	ifstream in("data.txt");
+	if (!in) {
+		cerr << "No file" << endl;
+		return -1;
+	}
+	istream_iterator<string> in_iter(in), eof;
+	ostream_iterator<string> out_iter(cout, " ");
+	vector<string> story(in_iter, eof);
+	copy(story.cbegin(), story.cend(), out_iter);
+
+	return 0;
+}
