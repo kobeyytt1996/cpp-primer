@@ -1,0 +1,12 @@
+#include <iostream>
+using namespace std;
+
+int main()
+{
+	int i = 6;
+	auto f = [&] () mutable -> bool { while (i > 0) --i;
+	return (i == 0 ? true : false); };
+	f();
+	cout << i << endl;
+
+}
