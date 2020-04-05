@@ -1,0 +1,28 @@
+#include <iostream>
+#include <vector>
+#include <list>
+#include <algorithm>
+#include <iterator>
+#include <deque>
+#include <forward_list>
+using namespace std;
+
+int main()
+{
+	vector<int> vec = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+	deque<int> deq;
+	list<int> li;
+	forward_list<int> fo;
+
+	copy(vec.cbegin(), vec.cend(), back_inserter(deq));
+	copy(vec.cbegin(), vec.cend(), front_inserter(fo));
+	copy(vec.cbegin(), vec.cend(), inserter(li, li.begin()));
+
+	for_each(deq.cbegin(), deq.cend(), [](int a) { cout << a << ends; });
+	cout << endl;
+	for_each(fo.cbegin(), fo.cend(), [](int a) {cout << a << ends; });
+	cout << endl;
+	for_each(li.cbegin(), li.cend(), [](int a) {cout << a << ends; });
+
+	return 0;
+}
