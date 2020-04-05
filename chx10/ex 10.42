@@ -1,0 +1,19 @@
+#include <list>
+#include <iostream>
+#include <iterator>
+#include <algorithm>
+#include <string>
+using namespace std;
+
+int main()
+{
+	istream_iterator<string> in(cin), eof;
+	list<string> li;
+	copy(in, eof, back_inserter(li));
+	li.sort();
+	li.unique();
+	ostream_iterator<string> out(cout, " ");
+	copy(li.cbegin(), li.cend(), out);
+	cout << endl;
+	return 0;
+}
