@@ -1,0 +1,18 @@
+#include <iostream>
+#include <string>
+#include <map>
+using namespace std;
+
+int main()
+{
+	map<string, size_t> word_num;
+	string word;
+	while (cin >> word)
+	{
+		auto ret = word_num.insert({ word, 1 });
+		if (!ret.second)
+		{
+			++ret.first->second;
+		}
+	}
+}
