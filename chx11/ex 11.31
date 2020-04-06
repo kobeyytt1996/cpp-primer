@@ -1,0 +1,20 @@
+#include <string>
+#include <utility>
+#include <map>
+#include <iostream>
+using namespace std;
+
+int main()
+{
+	multimap<string, string> book = { {"yuan", "love"},{"yuan", "hate"},
+									  {"ning", "first"}, {"yuan", "ai"} };
+	book.insert({ "zhang", "best" });
+	string search_item("yu");
+	auto iter = book.find(search_item);
+	if (iter != book.end())
+		book.erase(iter);
+	for (const auto &a : book)
+		cout << a.first << " published book: " << a.second << endl;
+
+	return 0;
+}
