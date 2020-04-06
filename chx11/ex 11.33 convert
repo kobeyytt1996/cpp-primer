@@ -1,0 +1,34 @@
+#include <string>
+#include <fstream>
+#include <map>
+#include <sstream>
+#include <iostream>
+using namespace std;
+
+void transform_map(ifstream &, map<string, string> &);
+const string & transform(map<string, string> &, const string &);
+
+void convert(ifstream &rule, ifstream &text, ofstream &new_text)
+{
+	map<string, string> standard;
+	transform_map(rule, standard);
+	string line, word;
+	while (getline(text, line))
+	{
+		istringstream line_string(line);
+		bool firstword = true;
+		while (line_string >> word)
+		{
+			word = transform(standard, word);
+			if (firstword)
+			{
+				firstword = false;
+			}
+			else new_text << " ";
+			new_text << word;
+			
+		}
+		new_text << endl;
+	}
+
+}
