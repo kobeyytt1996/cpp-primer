@@ -1,0 +1,37 @@
+#include <map>
+#include <string>
+#include <vector>
+#include <iostream>
+using namespace std;
+
+void add_family(map<string, vector<string>> &name, const string &last)
+{
+	if (name.find(last) == name.end())
+	{
+		name[last] = vector<string>();
+	}
+}
+
+void add_child(map<string, vector<string>> &name, const string &last, const string &child)
+{
+	name[last].push_back(child);
+}
+
+int main()
+{
+	map<string, vector<string>> Name;
+	add_family(Name, "张");
+	add_child(Name, "张", "强");
+	add_child(Name, "张", "刚");
+	add_child(Name, "王", "五");
+	add_family(Name, "王");
+
+	for (const auto &a : Name) {
+		cout << a.first << " 家孩子： ";
+		for (const auto &a1 : a.second)
+			cout << a1 << ends;
+		cout << endl;
+	}
+
+	return 0;
+}
