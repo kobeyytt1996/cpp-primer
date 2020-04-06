@@ -1,0 +1,23 @@
+#include <map>
+#include <fstream>
+#include <string>
+using namespace std;
+
+void transform_map(ifstream &rule, map<string, string> &standard)
+{
+	string key_word, mapped_word;
+	while (rule >> key_word && getline(rule, mapped_word))
+	{
+		standard[key_word] = mapped_word.substr(1);
+	}
+}
+
+const string & transform(map<string, string> &standard, const string &short_for)
+{
+	auto iter = standard.find(short_for);
+	if (iter != standard.cend())
+		return iter->second;
+	else 
+		return short_for;
+}
+
