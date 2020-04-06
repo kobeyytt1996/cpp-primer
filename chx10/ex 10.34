@@ -1,0 +1,14 @@
+#include <vector>
+#include <iostream>
+#include <iterator>
+using namespace std;
+
+int main()
+{
+	vector<int> vec = { 1, 2, 3, 4 };
+	ostream_iterator<int> out(cout, " ");
+	copy(vec.crbegin(), vec.crend(), out);
+	cout << endl;
+
+	return 0;
+}
