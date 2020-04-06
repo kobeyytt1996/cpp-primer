@@ -1,0 +1,13 @@
+#include <fstream>
+using namespace std;
+
+void convert(ifstream &, ifstream &, ofstream &);
+
+int main()
+{
+	ifstream infile("rule.txt"), in("text.txt");
+	ofstream out("new.txt");
+	convert(infile, in, out);
+
+	return 0;
+}
