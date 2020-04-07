@@ -1,0 +1,119 @@
+#pragma once
+
+#include <vector>
+#include <string>
+#include <memory>
+#include <initializer_list>
+#include <stdexcept>
+using namespace std;
+
+class StrBlobPtr;
+
+class StrBlob {
+	friend class StrBlobPtr;
+public:
+	typedef vector<string>::size_type size_type;
+	StrBlob();
+	StrBlob(initializer_list<string> il);
+	size_type size() const { return data->size(); }
+	bool empty() const { return data->empty(); }
+
+	string& front();
+	const string& front() const;
+	string& back();
+	const string& back() const;
+
+	void push_back(const string &t) { data->push_back(t); };
+	void pop_back();
+
+	StrBlobPtr begin();
+	StrBlobPtr end();
+private:
+	shared_ptr<vector<string>> data;
+	void check(size_type i, const string &msg) const;
+};
+
+StrBlob::StrBlob() : data(make_shared<vector<string>>()) {}
+StrBlob::StrBlob(initializer_list<string> il) : data(make_shared<vector<string>>(il)) {}
+
+void StrBlob::check(size_type i, const string &msg) const
+{
+	if (i >= data->size())
+		throw out_of_range(msg);
+}
+string& StrBlob::front()
+{
+	check(0, "front on empty");
+	return data->front();
+}
+const string& StrBlob::front() const
+{
+	check(0, "front on empty");
+	return data->front();
+}
+string& StrBlob::back()
+{
+	check(0, "back on empty");
+	return data->back();
+}
+const string& StrBlob::back() const
+{
+	check(0, "back on empty");
+	return data->back();
+}
+void StrBlob::pop_back()
+{
+	check(0, "pop on empty");
+	data->pop_back();
+}
+
+
+class StrBlobPtr {
+public:
+	StrBlobPtr() : curr(0) {}
+	StrBlobPtr(StrBlob &a, size_t sz = 0) : wptr(a.data), curr(sz) {}
+
+	string& deref() const;
+	StrBlobPtr& incre();
+private:
+	weak_ptr<vector<string>> wptr;
+	size_t curr;
+	shared_ptr<vector<string>> check(size_t i, const string &msg) const;
+};
+
+shared_ptr<vector<string>> StrBlobPtr::check(size_t i, const string &msg) const
+{
+	auto ret = wptr.lock();
+	if (!ret)
+		throw runtime_error("unbound StrBolbPtr");
+	if (i >= ret->size())
+		throw out_of_range(msg);
+	return ret;
+}
+
+string& StrBlobPtr::deref() const
+{
+	auto a = check(curr, "dereference past end");
+	return (*a)[curr];
+}
+
+StrBlobPtr& StrBlobPtr::incre()
+{
+	check(curr, "increment past end");
+	++curr;
+	return *this;
+}
+
+StrBlobPtr StrBlob::begin()
+{
+	return StrBlobPtr(*this);
+}
+
+StrBlobPtr StrBlob::end()
+{
+	return StrBlobPtr(*this, data->size());
+}
+
+
+
+
