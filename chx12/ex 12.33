@@ -1,0 +1,77 @@
+#pragma once
+#include <vector>
+#include <string>
+#include <map>
+#include <set>
+#include <memory>
+#include <fstream>
+#include <sstream>
+using namespace std;
+
+class QueryResult;
+class TextQuery {
+public:
+	typedef vector<string>::size_type line_no;
+	TextQuery(ifstream &infile);
+	QueryResult query(const string &sought) const;
+private:
+	shared_ptr<vector<string>> file;
+	map < string, shared_ptr<set<line_no>>> wm;
+};
+
+TextQuery::TextQuery(ifstream &infile) : file(new vector<string>)
+{
+	string text;
+	while (getline(infile, text))
+	{
+		file->push_back(text);
+		int n = file->size() - 1;
+		istringstream line(text);
+		string word;
+		while (line >> word)
+		{
+			auto &lines = wm[word];
+			if (!lines)
+				lines.reset(new set<line_no>);
+			lines->insert(n);
+		}
+	}
+}
+
+
+class QueryResult {
+	friend ostream& print(ostream &, const QueryResult &);
+public:
+	using line_no = vector<string>::size_type;
+	QueryResult(shared_ptr<vector<string>> f,
+		shared_ptr<set<line_no>> p,
+		string s) : 
+		file(f), lines(p), sought(s) {}
+	set<line_no>::iterator begin() const { return lines->begin(); }
+	set<line_no>::iterator end() const { return lines->end(); }
+	shared_ptr<vector<string>> get_file() { return file; }
+private:
+	shared_ptr<vector<string>> file;
+	shared_ptr<set<line_no>> lines;
+	string sought;
+};
+
+QueryResult TextQuery::query(const string &sought) const
+{
+	static shared_ptr<set<line_no>> nodata(new set<line_no>);
+	auto loc = wm.find(sought);
+	if (loc == wm.end())
+		return QueryResult(file, nodata, sought);
+	else
+		return QueryResult(file, loc->second, sought);
+}
+
+ostream &print(ostream &os, const QueryResult &qr)
+{
+	os << qr.sought << " occurs " << qr.lines->size()
+		<< " times " << endl;
+	for (auto a : *(qr.lines))
+		os << "\t(line " << a + 1 << ") "
+		<< (*qr.file)[a] << endl;
+	return os;
+}
