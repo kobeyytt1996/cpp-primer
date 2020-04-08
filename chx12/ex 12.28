@@ -1,0 +1,62 @@
+#include <vector>
+#include <string>
+#include <map>
+#include <set>
+#include <fstream>
+#include <sstream>
+#include <iostream>
+#include <ctype.h>
+using namespace std;
+
+void runQueries(ifstream &infile)
+{
+	string line, word;
+	vector<string> record;
+	map<string, set<int>> search_resource;
+	int linenumber = 0;
+	while (getline(infile, line))
+	{
+		record.push_back(line);
+		istringstream eachline(line);
+		++linenumber;
+		while (eachline >> word)
+		{
+			string mapped_word;
+			for (auto a : word) {
+				if (!ispunct(a))
+					mapped_word.push_back(tolower(a));
+			}
+			search_resource[mapped_word].insert(linenumber);
+		}
+	}
+
+	while (true)
+	{
+		cout << "Enter a word to query, or q to quit: " << endl;
+		if (cin >> word && word != "q") {
+			size_t num = 0;
+			auto posi = search_resource.find(word);
+			if (posi == search_resource.end())
+				cout << word << " doesn't occur in this text" << endl;
+			else {
+				num = posi->second.size();
+				auto wordset = posi->second;
+				cout << word << " occurs " << num << " times " << endl;
+				for (auto iter = wordset.begin(); iter != wordset.end(); ++iter)
+					cout << '\t' << "(line " << *iter << ") " << record[*iter - 1] << endl;
+			}	
+		}
+		else break;		
+	}
+}
+
+int main(int argc, char **argv)
+{
+	ifstream infile("text.txt");
+	if (!infile) {
+		cerr << "File not found" << endl;
+		return -1;
+	}
+	runQueries(infile);
+	return 0;
+}
