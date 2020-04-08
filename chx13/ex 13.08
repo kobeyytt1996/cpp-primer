@@ -1,0 +1,8 @@
+HasPtr&
+HasPtr::operator=(const HasPtr &orig)
+{
+	delete ps;
+	ps = new string(*orig.ps);
+	i = orig.i;
+	return *this;
+}
