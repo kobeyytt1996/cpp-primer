@@ -1,0 +1,25 @@
+#include "Text.h"
+#include <string>
+#include <iostream>
+#include <vector>
+#include <memory>
+using namespace std;
+
+struct X {
+	X() { cout << "X()" << endl; }
+	X(const X&) { cout << "X(const &X)" << endl; }
+	~X() { cout << "destroy" << endl; };
+	const X& operator=(const X &Y) { cout << "copy assign" << endl; return Y; }
+};
+void print(const X Z)
+{
+
+}
+
+int main()
+{
+	X *Z = new X;
+	shared_ptr<X> A(Z);
+}
+
+
