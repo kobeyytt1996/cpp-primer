@@ -1,0 +1,120 @@
+#pragma once
+#include <string>
+#include <set>
+using namespace std;
+
+
+class Folder;
+
+class Message {
+	friend void swap(Message&, Message&);
+public:
+	Message(const string & str = "") :
+		contents(str) {}
+	Message(const Message &M) :
+		contents(M.contents), folders(M.folders) {
+		add_to_folders(M);
+	}
+	Message& operator=(const Message &M) {
+		remove_from_folders();
+		contents = M.contents;
+		folders = M.folders;
+		add_to_folders(M);
+		return *this;
+	}
+	~Message() {
+		remove_from_folders();
+	}
+
+	void addF(Folder *F) {
+		folders.insert(F);
+	}
+	void removeF(Folder *F) {
+		folders.erase(F);
+	}
+
+	void save(Folder &);
+	void remove(Folder &);
+private:
+	string contents;
+	set<Folder*> folders;
+	void add_to_folders(const Message &M) {
+		for (auto a : M.folders)
+			a->addMsg(this);
+	}
+	void remove_from_folders() {
+		for (auto a : folders)
+			a->removeMsg(this);
+	}
+};
+
+void Message::save(Folder &F)
+{
+	folders.insert(&F);
+	F.addMsg(this);
+}
+
+void Message::remove(Folder &F)
+{
+	folders.erase(&F);
+	F.removeMsg(this);
+}
+void swap(Message &M1, Message &M2)
+{
+	using std::swap;
+	M1.remove_from_folders();
+	M2.remove_from_folders();
+	swap(M1.contents, M2.contents);
+	swap(M1.folders, M2.folders);
+	M1.add_to_folders(M1);
+	M2.add_to_folders(M2);
+}
+
+class Folder {
+	friend void swap(Folder&, Folder&);
+public:
+	Folder(const string &str = "") :
+		name(str){}
+	Folder(const Folder &F) :
+		name(F.name), messages(F.messages) {
+		add_to_messages(F);
+	}
+	Folder& operator=(const Folder &F) {
+		remove_from_messages();
+		name = F.name;
+		messages = F.messages;
+		add_to_messages(F);
+		return *this;
+	}
+	~Folder() { remove_from_messages(); }
+	void addMsg(Message *M) {
+		messages.insert(M);
+	}
+	void removeMsg(Message *M) {
+		messages.erase(M);
+	}
+private:
+	string name;
+	set<Message*> messages;
+	void add_to_messages(const Folder &F)
+	{
+		for (auto a : F.messages)
+			a->addF(this);
+	}
+	void remove_from_messages()
+	{
+		for (auto a : messages)
+			a->removeF(this);
+	}
+};
+
+void swap(Folder &F1, Folder &F2)
+{
+	using std::swap;
+	F1.remove_from_messages();
+	F2.remove_from_messages();
+	swap(F1.name, F2.name);
+	swap(F1.messages, F2.messages);
+	F1.add_to_messages(F1);
+	F2.add_to_messages(F2);
+}
