@@ -1,0 +1,34 @@
+#pragma once
+#include <string>
+using namespace std;
+
+class HasPtr {
+public:
+	HasPtr(const string &str = string()) :
+		ps(new string(str)), use(new size_t(1)), i(0) {}
+	HasPtr(const HasPtr &hp) :
+		ps(hp.ps), use(hp.use), i(hp.i) {
+		++*use;
+	}
+	HasPtr& operator=(const HasPtr &hp) {
+		++*hp.use;
+		if (--*use == 0) {
+			delete ps;
+			delete use;
+		}
+		ps = hp.ps;
+		use = hp.use;
+		i = hp.i;
+		return *this;
+	}
+	~HasPtr() {
+		if (--*use == 0) {
+			delete ps;
+			delete use;
+		}
+	}
+private:
+	string *ps;
+	size_t *use;
+	int i;
+};
