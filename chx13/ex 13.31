@@ -1,0 +1,33 @@
+#pragma once
+#include <string>
+#include <iostream>
+using namespace std;
+
+class HasPtr {
+	friend void swap(HasPtr &, HasPtr &);
+public:
+	HasPtr(const string &str = string()) :
+		ps(new string(str)), i(0) {}
+	HasPtr(const HasPtr &hp) :
+		ps(new string(*hp.ps)), i(hp.i) {}
+	HasPtr& operator=(const HasPtr &hp) {
+		auto tool = new string(*hp.ps);
+		delete ps;
+		ps = tool;
+		return *this;
+	}
+	bool operator<(const HasPtr &hp) const {
+		return *ps < *hp.ps;
+	}
+	~HasPtr() { delete ps; }
+private:
+	string *ps;
+	int i;
+};
+
+inline void swap(HasPtr &hp1, HasPtr &hp2)
+{
+	swap(hp1.ps, hp2.ps);
+	swap(hp1.i, hp2.i);
+	cout << "swap" << endl;
+}
