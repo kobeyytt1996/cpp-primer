@@ -1,0 +1,5 @@
+	StrBlob(const StrBlob& orig) : data(make_shared<vector<string>>(*(orig.data))) {}
+	StrBlob& operator=(const StrBlob&orig) { 
+		vector<string> vec = *(orig.data);
+		data = make_shared<vector<string>>(vec); 
+		return *this; }
