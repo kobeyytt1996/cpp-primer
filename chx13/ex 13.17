@@ -1,0 +1,26 @@
+
+#include <iostream>
+
+using namespace std;
+
+struct numbered {
+	size_t mysn;
+	static int bec;
+	numbered() {
+		mysn = bec++;
+	}
+	/*numbered(const numbered &num) {
+		mysn = bec++;
+	}*/
+};
+
+int numbered::bec = 0;
+void f(const numbered &num) { cout << num.mysn << endl; }
+
+int main()
+{
+	numbered a, b = a, c = b;
+	f(a); f(b); f(c);
+}
+
+
