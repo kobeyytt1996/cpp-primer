@@ -1,0 +1,5 @@
+StrVec(initializer_list<string> il) {
+		auto newdata = alloc_n_copy(il.begin(), il.end());
+		elements = newdata.first;
+		cap = first_free = newdata.second;
+	}
