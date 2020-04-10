@@ -1,0 +1,4 @@
+void StrVec::free() {
+	for_each(elements, first_free, [](const string &s) {alloc.destroy(&s); });
+	alloc.deallocate(elements, cap - elements);
+}
