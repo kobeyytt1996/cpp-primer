@@ -1,0 +1,104 @@
+#pragma once
+#include <utility>
+#include <string>
+#include <memory>
+#include <initializer_list>
+using namespace std;
+
+class StrVec {
+public:
+	StrVec() :
+		elements(nullptr), first_free(nullptr), cap(nullptr) {}
+	StrVec(initializer_list<string> il) {
+		auto newdata = alloc_n_copy(il.begin(), il.end());
+		elements = newdata.first;
+		cap = first_free = newdata.second;
+	}
+	StrVec(const StrVec&);
+	StrVec& operator=(const StrVec&);
+	~StrVec();
+	void push_back(const string &);
+	size_t size() const { return first_free - elements; }
+	size_t capacity() const { return cap - elements; }
+	string* begin() const { return elements; }
+	string* end() const { return first_free; }
+
+	void reserve(size_t n) { if (n > capacity()) reallocate(); }
+	void resize(size_t, const string &);
+
+private:
+	string *elements;
+	string *first_free;
+	string *cap;
+
+	static allocator<string> alloc;
+	void chk_n_copy() {
+		if (size() == capacity()) reallocate();
+	}
+	void free();
+	void reallocate();
+	pair<string*, string*> alloc_n_copy(const string*, const string*);
+
+};
+
+void StrVec::push_back(const string &str) {
+	chk_n_copy();
+	alloc.construct(first_free++, str);
+}
+
+pair<string*, string*> StrVec::alloc_n_copy(const string *str1, const string *str2)
+{
+	auto data = alloc.allocate(str2 - str1);
+	return{ data, uninitialized_copy(str1, str2, data) };
+}
+
+void StrVec::free() {
+	if (elements)
+		while (first_free != elements)
+		{
+			alloc.destroy(--first_free);
+		}
+	alloc.deallocate(elements, cap - elements);
+}
+
+StrVec::StrVec(const StrVec &vec) {
+	auto newdata = alloc_n_copy(vec.begin(), vec.end());
+	elements = newdata.first;
+	cap = first_free = newdata.second;
+}
+
+StrVec::~StrVec() { free(); }
+
+
+StrVec& StrVec::operator=(const StrVec& vec) {
+	auto newdata = alloc_n_copy(vec.begin(), vec.end());
+	free();
+	elements = newdata.first;
+	first_free = cap = newdata.second;
+	return *this;
+}
+
+void StrVec::reallocate()
+{
+	auto newcapacity = size() ? 2 * size() : 1;
+	auto newdata = alloc.allocate(newcapacity);
+	auto dest = newdata;
+	auto elem = elements;
+	for (size_t i = 0; i != size(); ++i)
+		alloc.construct(dest++, std::move(*elem++));
+	free();
+	elements = newdata;
+	first_free = dest;
+	cap = elements + newcapacity;
+}
+
+void StrVec::resize(size_t n, const string &str = "") {
+	if (n > size()) {
+		while (size() < n)
+			push_back(str);
+	}
+	if (n < size()) {
+		while (size() > n)
+			alloc.destroy(--first_free);
+	}
+}
