@@ -1,0 +1,14 @@
+#include <string>
+using namespace std;
+
+class Test {
+public:
+	Test(size_t a1, size_t a2) :
+		a(a1), b(a2) {}
+	bool operator()(const string &str) const
+	{
+		return a <= str.size() && str.size() <= b;
+	}
+private:
+	size_t a, b;
+};
