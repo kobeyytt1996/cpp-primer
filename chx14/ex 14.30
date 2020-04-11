@@ -1,0 +1,10 @@
+string& operator*() const
+{
+	auto p = check(curr, "dereference invalid");
+	return (*p)[curr];
+}
+
+string* opertor->() const
+{
+	return &this->operator*();
+}
