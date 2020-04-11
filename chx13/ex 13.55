@@ -1,0 +1,4 @@
+void StrVec::push_back(string &&str) {
+	chk_n_copy();
+	alloc.construct(first_free++, std::move(str));
+}
