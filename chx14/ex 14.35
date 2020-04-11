@@ -1,0 +1,12 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+struct PrintLine {
+	string operator()(istream &is)
+	{
+		string line;
+		getline(is, line);
+		return line.size() ? line : string();
+	}
+};
