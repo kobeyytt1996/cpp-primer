@@ -1,0 +1,22 @@
+class StrBlobPtr;
+StrBlobPtr& operator++();
+StrBlobPtr& StrBlobPtr::operator++()
+{
+	check(curr, "increment invalid");
+	++curr;
+	return *this;
+}
+
+StrBlobPtr& StrBlobPtr::operator--()
+{
+	--curr;
+	check(curr, "decrement invalid");
+	return *this;
+}
+
+StrBlobPtr& StrBlobPtr::operator++(int)
+{
+	auto ret = *this;
+	++*this;
+	return ret;
+}
