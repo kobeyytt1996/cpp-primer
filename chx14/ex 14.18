@@ -1,0 +1,13 @@
+friend bool operator<(const StrVec &, const StrVec &);
+bool operator<(const StrVec &lhs, const StrVec &rhs)
+{
+	for (auto iter1 = lhs.begin(), iter2 = rhs.begin(); iter1 != lhs.end(), iter2 != rhs.end(); ++iter1, ++iter2) {
+		if (*iter1 < *iter2)
+			return true;
+		if (*iter1 > *iter2)
+			return false;
+	}
+	if (iter1 == lhs.end() && iter2 != rhs.end())
+		return true;
+	return false;
+}
