@@ -1,0 +1,27 @@
+#include <functional>
+#include <string>
+#include <iostream>
+#include <map>
+using namespace std;
+
+int divide(int a, int b)
+{
+	return a / b;
+}
+int main()
+{
+	map<char, function<int(int, int)>> binops = {
+		{'+', plus<int>()},
+		{'-', minus<int>()}
+	};
+	binops.insert({ '*', [](int a, int b) { return a * b; } });
+	binops.insert({ '/', divide });
+	binops.insert({ '%', modulus<int>() });
+	int a, b;
+	char str;
+	cin >> a >> str >> b;
+	int c = binops[str](a, b);
+	cout << c << endl;
+
+	return 0;
+}
