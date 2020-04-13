@@ -1,0 +1,196 @@
+#pragma once
+#include <vector>
+#include <string>
+#include <map>
+#include <set>
+#include <memory>
+#include <fstream>
+#include <sstream>
+#include <algorithm>
+#include <iterator>
+using namespace std;
+
+class QueryResult;
+class TextQuery {
+public:
+	typedef vector<string>::size_type line_no;
+	TextQuery(ifstream &infile);
+	QueryResult query(const string &sought) const;
+private:
+	shared_ptr<vector<string>> file;
+	map < string, shared_ptr<set<line_no>>> wm;
+};
+
+TextQuery::TextQuery(ifstream &infile) : file(new vector<string>)
+{
+	string text;
+	while (getline(infile, text))
+	{
+		file->push_back(text);
+		int n = file->size() - 1;
+		istringstream line(text);
+		string word;
+		while (line >> word)
+		{
+			auto &lines = wm[word];
+			if (!lines)
+				lines.reset(new set<line_no>);
+			lines->insert(n);
+		}
+	}
+}
+
+
+class QueryResult {
+	friend ostream& print(ostream &, const QueryResult &);
+public:
+	using line_no = vector<string>::size_type;
+	QueryResult(shared_ptr<vector<string>> f,
+		shared_ptr<set<line_no>> p,
+		string s) :
+		file(f), lines(p), sought(s) {}
+	set<line_no>::iterator begin() const { return lines->begin(); }
+	set<line_no>::iterator end() const { return lines->end(); }
+	shared_ptr<vector<string>> get_file() { return file; }
+private:
+	shared_ptr<vector<string>> file;
+	shared_ptr<set<line_no>> lines;
+	string sought;
+};
+
+QueryResult TextQuery::query(const string &sought) const
+{
+	static shared_ptr<set<line_no>> nodata(new set<line_no>);
+	auto loc = wm.find(sought);
+	if (loc == wm.end())
+		return QueryResult(file, nodata, sought);
+	else
+		return QueryResult(file, loc->second, sought);
+}
+
+ostream &print(ostream &os, const QueryResult &qr)
+{
+	os << qr.sought << " occurs " << qr.lines->size()
+		<< " times " << endl;
+	for (auto a : *(qr.lines))
+		os << "\t(line " << a + 1 << ") "
+		<< (*qr.file)[a] << endl;
+	return os;
+}
+
+
+class Query_base {
+	friend class Query;
+protected:
+	using line_no = TextQuery::line_no;
+	virtual ~Query_base() = default;
+private:
+	virtual QueryResult eval(const TextQuery&) const = 0;
+	virtual string rep() const = 0;
+};
+
+class Query {
+	friend Query operator&(const Query&, const Query&);
+	friend Query operator|(const Query&, const Query&);
+	friend Query operator~(const Query&);
+public:
+	Query(const string &s) : q(new WordQuery(s)) {}
+	QueryResult eval(const TextQuery &t) const
+	{ return q->eval(t); }
+	string rep() const
+	{ return q->rep(); }
+private:
+	Query(shared_ptr<Query_base> query) : q(query) {}
+	shared_ptr<Query_base> q;
+};
+
+ostream& operator<<(ostream &os, const Query &query)
+{
+	return os << query.rep();
+}
+
+class WordQuery : public Query_base {
+	friend class Query;
+	WordQuery(const string &s) : 
+		query_word(s) {}
+	QueryResult eval(const TextQuery &t) const override
+	{ return t.query(query_word); }
+	string rep() const override
+	{ return query_word; }
+	string query_word;
+};
+
+class NotQuery : public Query_base {
+	friend Query operator~(const Query &);
+	NotQuery(const Query &q) : query(q) {}
+	QueryResult eval(const TextQuery &) const override;
+	string rep() const override
+	{ return "~(" + query.rep() + ")"; }
+	Query query;
+};
+
+QueryResult NotQuery::eval(const TextQuery &text) const
+{
+	auto result = query.eval(text);
+	auto ret_lines = make_shared<set<line_no>>();
+	auto beg = result.begin(), end = result.end();
+	auto sz = result.get_file()->size();
+	for (size_t n = 0; n != sz; ++n) {
+		if (beg == end || n != *beg)
+			ret_lines->insert(n);
+		else if (beg != end)
+			++beg;
+	}
+	return QueryResult(result.get_file(), ret_lines, rep());
+}
+
+inline Query operator~(const Query &q)
+{ return shared_ptr<Query_base>(new NotQuery(q)); }
+
+class BinaryQuery : public Query_base {
+protected:
+	BinaryQuery(const Query &l, const Query &r, string s) :
+		lhs(l), rhs(r), opSym(s) {}
+	string rep() const override
+	{ return "(" + lhs.rep() + " " + opSym
+				+ " " + rhs.rep() + ")"; }
+	Query lhs, rhs;
+	string opSym;
+};
+
+class AndQuery : public BinaryQuery {
+	friend Query operator&(const Query&, const Query&);
+	AndQuery(const Query &l, const Query &r) : 
+		BinaryQuery(l, r, "&") {}
+	QueryResult eval(const TextQuery&) const override;
+};
+
+Query operator&(const Query &l, const Query &r)
+{ return shared_ptr<Query_base>(new AndQuery(l, r)); }
+
+QueryResult AndQuery::eval(const TextQuery &text) const
+{
+	auto left = lhs.eval(text), right = rhs.eval(text);
+	auto ret_lines = make_shared<set<line_no>>();
+	set_intersection(left.begin(), left.end(), right.begin(), right.end(), 
+		inserter(*ret_lines, ret_lines->begin()));
+	return QueryResult(left.get_file(), ret_lines, rep());
+}
+
+class OrQuery : public BinaryQuery {
+	friend Query operator|(const Query&, const Query&);
+	OrQuery(const Query &l, const Query &r) :
+		BinaryQuery(l, r, "|") {}
+	QueryResult eval(const TextQuery&) const override;
+};
+
+Query operator|(const Query &l, const Query &r)
+{ return shared_ptr<Query_base>(new OrQuery(l, r)); }
+
+QueryResult OrQuery::eval(const TextQuery &text) const
+{
+	auto left = lhs.eval(text), right = rhs.eval(text);
+	auto ret_lines = make_shared<set<line_no>>(left.begin(), left.end());
+	ret_lines->insert(right.begin(), right.end());
+	return QueryResult(left.get_file(), ret_lines, rep());
+}
