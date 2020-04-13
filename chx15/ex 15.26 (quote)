@@ -1,0 +1,7 @@
+	Quote(const Quote &qu) : 
+		BookNo(qu.BookNo), price(qu.price){}
+	Quote& operator=(const Quote &qu)
+	{
+		BookNo = qu.BookNo;
+		price = qu.price;
+	}
