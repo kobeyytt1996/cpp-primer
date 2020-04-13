@@ -1,0 +1,24 @@
+#include <vector>
+#include <string>
+#include <list>
+#include <iostream>
+using namespace std;
+
+template <typename T, typename iter>
+iter findl(iter beg, iter end, const T &search)
+{
+	while (beg != end && *beg != search)
+		++beg;
+	return beg;
+}
+
+int main()
+{
+	vector<int> vec = { 1, 0, 5, 6 };
+	auto it = findl(vec.begin(), vec.end(), 5);
+
+	cout << *it << endl;
+	
+	return 0;
+	return 0;
+}
