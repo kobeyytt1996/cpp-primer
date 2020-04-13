@@ -1,0 +1,20 @@
+#include <vector>
+#include <string>
+#include <list>
+#include <iostream>
+using namespace std;
+
+template<typename T, size_t n>
+void print(T(&arr)[n])
+{
+	for (auto a : arr)
+		cout << a << endl;
+}
+
+int main()
+{
+	int a[10] = { 1, 2, 3 };
+	print(a);
+
+	return 0;
+}
