@@ -1,0 +1,16 @@
+#include <type_traits>
+#include <iostream>
+using namespace std;
+
+template <typename T1, typename T2>
+auto sum(T1 a, T2 b) -> typename add_const<decltype(a + b)>::type
+{
+	return a + b;
+}
+
+int main()
+{
+	cout << sum(5, 1.5) << endl;
+
+	return 0;
+}
