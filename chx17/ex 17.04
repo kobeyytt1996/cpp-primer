@@ -1,0 +1,23 @@
+#include <tuple>
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <iterator>
+using namespace std;
+
+class Sales_data;
+
+using matches = tuple<vector<Sales_data>::size_type,
+	vector<Sales_data>::const_iterator,
+	vector<Sales_data>::const_iterator>;
+vector<matches>
+findBook(const vector<vector<Sales_data>> &files, const string &book)
+{
+	vector<matches> ret;
+	for (auto it = files.cbegin(); it != files.cend(); ++it) {
+		auto found = equal_range(it->cbegin(),it->cend(), book, compareISBN);
+		if (found.first != found.second)
+			ret.push_back(make_tuple(it - files.cbegin(), found.first, found.second));
+	}
+	return ret;
+}
