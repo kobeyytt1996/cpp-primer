@@ -1,0 +1,26 @@
+#include <vector>
+#include <string>
+#include <list>
+#include <iostream>
+#include <memory>
+#include "text.h"
+using namespace std;
+
+template<typename T>
+inline void print(const T &con)
+{
+	auto iter = con.cbegin();
+	while (iter != con.cend())
+	{
+		cout << *iter << ends;
+		iter++;
+	}
+}
+
+int main()
+{
+	vector<int> vec = { 1, 2, 3 };
+	print(vec);
+
+	return 0;
+}
