@@ -1,0 +1,20 @@
+#include <vector>
+#include <iostream>
+using namespace std;
+
+template<typename T>
+size_t count_same(const vector<T> &vec, const T &val)
+{
+	size_t i = 0;
+	for (auto a : vec)
+		if (a == val)
+			++i;
+	return i;
+}
+
+int main() {
+	vector<int> vec1 = { 1, 3, 4, 5, 1, 2 };
+	cout << count_same(vec1, 1) << endl;
+	
+	return 0;
+}
