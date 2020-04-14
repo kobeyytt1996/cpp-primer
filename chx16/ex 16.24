@@ -1,0 +1,17 @@
+template <typename T> class BlobPtr;
+template <typename T> class Blob
+{
+
+	friend class BlobPtr<T>;
+public:
+	typedef typename vector<T>::size_type size_type;
+	Blob();
+	template <typename It> Blob(It beg, It end) : data(make_shared<vector<T>>(beg, end)) {}
+	size_type size() const { return data->size(); }
+	void push_back(T &&t) { data->push_back(std::move(t)); }
+	const T& operator[](size_t n) const { return (*data)[n]; }
+	T& back() { return data->back(); }
+private:
+	shared_ptr<vector<T>> data;
+	void check(size_t, const string&) const;
+};
