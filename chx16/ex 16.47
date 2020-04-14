@@ -1,0 +1,21 @@
+#include <utility>
+#include <iostream>
+using namespace std;
+
+template <typename F, typename T1, typename T2>
+void flip2(F f, T1 &&v1, T2 &&v2)
+{
+	f(forward<T2>(v2), forward<T1>(v1));
+}
+
+void fun(int &&f1, int &f2)
+{
+	cout << "good" << endl;
+}
+
+int main()
+{
+	int i = 10, j = 5;
+	flip2(fun, 42, i);
+
+	return 0;
