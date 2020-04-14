@@ -1,0 +1,11 @@
+class DebugDelete {
+public:
+	DebugDelete(ostream &o = cerr) : os(o) {}
+	template <typename T>
+	void operator()(T *po) {
+		delete po;
+		os << "DebugDelete works!" << endl;
+	}
+private:
+	ostream &os;
+};
