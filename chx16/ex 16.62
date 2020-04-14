@@ -1,0 +1,16 @@
+using namespace std;
+struct Sales_data;
+namespace std {
+	template<>
+	class hash<Sales_data> {
+	public:
+		typedef size_t result_type;
+		typedef Sales_data argument_type;
+		result_type operator()(const Sales_data &sd) const
+		{
+			return hash<string>()(sd.bookNo) ^
+				hash<double>()(sd.units_sold);
+		}
+	};
+
+}
