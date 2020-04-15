@@ -1,0 +1,18 @@
+#include <ctime>
+#include <iostream>
+#include <random>
+using namespace std;
+
+unsigned int generate()
+{
+	static uniform_int_distribution<unsigned> u(0, 100);
+	static default_random_engine e(100);
+	return u(e);
+}
+
+int main()
+{
+	cout << generate() << endl;
+	cout << generate() << endl;
+	return 0;
+}
