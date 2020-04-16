@@ -1,0 +1,14 @@
+#include<iostream>
+#include <cmath>
+#include <iomanip>
+using namespace std;
+
+int main()
+{
+	cout.precision(10);
+	cout << "hex " << hexfloat << uppercase << sqrt(2.0);
+	cout << defaultfloat << nouppercase;
+	cout << endl;
+
+	return 0;
+}
