@@ -1,0 +1,26 @@
+#include <stdexcept>
+#include <string>
+using namespace std;
+
+class Sales_data;
+class out_of_stock : public runtime_error {
+public:
+	explicit out_of_stock(const string &s) : 
+		runtime_error(s) {}
+};
+class isbn_mismatch : public logic_error {
+public:
+	explicit isbn_mismatch(const string &s) : 
+		logic_error(s) {}
+	isbn_mismatch(const string &s, const string &l, const string &r) :
+		logic_error(s), lhs(l), rhs(r) {}
+	const string lhs, rhs;
+};
+
+Sales_data::
+Sales_data& operator+=(const Sales_data & r)
+{
+	if (isbn() != r.isbn())
+		throw isbn_mismatch("wrong isbn", isbn(), r.isbn());
+	units_sold += r.units_sold;
+}
