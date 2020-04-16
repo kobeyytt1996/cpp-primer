@@ -1,0 +1,13 @@
+int main()
+{
+	Sales_data item1, item2;
+	while (cin >> item1 >> item2)
+	{
+		try {
+			item1 += item2;
+		}
+		catch (const isbn_mismatch &e) {
+			cerr << e.what() << endl;
+		}
+	}
+}
