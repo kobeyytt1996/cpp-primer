@@ -13,6 +13,7 @@ private:
 	pos height, weight;
 };
 
+
 int main()
 {
 	auto pcur = Screen::get_cur();
