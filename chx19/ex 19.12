@@ -1,0 +1,21 @@
+#include <string>
+using std::string;
+
+class Screen {
+public:
+	typedef string::size_type pos;
+	char get_cursor() const { return contents[cursor]; }
+	static const pos Screen::* get_cur()
+	{ return &Screen::cursor; }
+private:
+	string contents;
+	pos cursor;
+	pos height, weight;
+};
+
+int main()
+{
+	auto pcur = Screen::get_cur();
+	Screen myScreen;
+	auto cu = myScreen.*pcur;
+}
