@@ -1,0 +1,69 @@
+#pragma once
+#include <string>
+using std::string;
+
+union Token {
+public:
+	Token() : tok(INT), ival(0) {}
+	Token(const Token &t) : tok(t.tok) { copyUnion(t); }
+	Token(Token &&t) : tok(t.tok)
+	{
+		copyUnion(t);
+		t.tok = Token::INT;
+		t.ival = 0;
+	}
+	Token& operator=(const Token&);
+	~Token() { if(tok == STR) sval.~string(); }
+
+	Token& operator=(int);
+	Token& operator=(const string&);
+private:
+	enum {INT, CHA, DBL, STR} tok;
+	union {
+		int ival;
+		char cval;
+		double dval;
+		string sval;
+	};
+	void copyUnion(const Token&);
+};
+
+Token& Token::operator=(int i)
+{
+	if (tok == STR) sval.~string();
+	ival = i;
+	tok = INT;
+	return *this;
+}
+
+Token& Token::operator=(const string &s)
+{
+	if (tok == STR)
+		sval = s;
+	else
+		new(&sval) string(s);
+	tok = STR;
+	return *this;
+}
+
+void Token::copyUnion(const Token &t)
+{
+	switch (t.tok) {
+		case Token::INT: ival = t.ival; break;
+		case Token::CHA: cval = t.cval; break;
+		case Token::DBL: dval = t.dval; break;
+		case Token::STR: new(&sval) string(t.sval); break;	
+	}
+}
+
+Token& Token::operator=(const Token &t)
+{
+	if (tok == STR && t.tok != STR)
+		sval.~string();
+	if (tok == STR && t.tok == STR)
+		sval = t.sval;
+	else
+		copyUnion(t);
+	tok = t.tok;
+	return *this;
+}
