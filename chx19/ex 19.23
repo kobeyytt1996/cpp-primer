@@ -36,6 +36,7 @@ Token& Token::operator=(int i)
 	return *this;
 }
 
+
 Token& Token::operator=(const string &s)
 {
 	if (tok == STR)
